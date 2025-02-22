@@ -1,5 +1,6 @@
 const {User} = require('../models/user');
 const {Record} = require('../models/records');
+const recommendations = require('../utils/recommendations')
 
 // @desc get users data
 // @route POST /users/get-data
@@ -56,6 +57,34 @@ const addRecords = async(req, res) =>{
     }
 }
 
+
+const getUserRecommendations = async (req, res) => {
+    try {
+      const userId = req.id;
+  
+      // Fetch the latest medical record of the user
+      const user = await User.findById({ _id:userId }).populate('pastRecords');
+  
+      if (!user) {
+        return res.json({ message: "No records found", recommendation: null });
+      }
+  
+      const { category, confidence } = user.pastRecords[0];
+      let recommendation = "";
+  
+      if (category.toLowerCase() === "benign") {
+        recommendation = confidence < 75 ? recommendations.benign.lowConfidence : recommendations.benign.highConfidence;
+      } else if (category.toLowerCase() === "malignant") {
+        recommendation = confidence < 75 ? recommendations.malignant.lowConfidence : recommendations.malignant.highConfidence;
+      }
+  
+      res.status(200).json({ user, recommendation });
+    } catch (error) {
+      console.error("Error fetching recommendations:", error);
+      res.status(500).json({ message: "Server error" });
+    }
+  };
+
 // @desc add doctor email
 // @route POST /users/add-doctor-email
 // @access private
@@ -87,4 +116,4 @@ const sendReportToDoctor = async (req, res) =>{
     // }
 }
 
-module.exports = {getUserData, updateUserData, addRecords, sendReportToDoctor, addDoctorEmail};
+module.exports = {getUserData, updateUserData, addRecords, sendReportToDoctor, addDoctorEmail, getUserRecommendations};
