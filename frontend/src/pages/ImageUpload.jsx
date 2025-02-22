@@ -3,21 +3,23 @@ import axios from "axios";
 
 export default function ImageUpload() {
   const [image, setImage] = useState(null); // For preview
-  const [uploadedimage, setUploadedimage] = useState(null); // For Cloudinary
+  const [uploadedImage, setUploadedImage] = useState(null); // For Cloudinary
   const [uploading, setUploading] = useState(false);
   const [imagePreview, setImagePreview] = useState(null);
   const [prediction, setPrediction] = useState("");
+  const [confidence, setConfidence] = useState(""); // New state for confidence score
   const [error, setError] = useState("");
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-      setUploadedimage(file); // Store file for backend prediction
+      setUploadedImage(file); // Store file for backend prediction
       setImage(URL.createObjectURL(file)); // Preview image
       uploadToCloudinary(file);
 
       setImagePreview(null);
       setPrediction("");
+      setConfidence(""); // Reset confidence
       setError("");
 
       const reader = new FileReader();
@@ -53,13 +55,13 @@ export default function ImageUpload() {
   };
 
   const handlePredict = async () => {
-    if (!uploadedimage) {
+    if (!uploadedImage) {
       alert("Please upload an image.");
       return;
     }
 
     const formData = new FormData();
-    formData.append("file", uploadedimage); // Use actual file
+    formData.append("file", uploadedImage); // Use actual file
 
     try {
       const response = await axios.post(
@@ -70,16 +72,19 @@ export default function ImageUpload() {
         }
       );
 
-      if (response.data.prediction) {
+      if (response.data.prediction && response.data.confidence !== undefined) {
         setPrediction(response.data.prediction);
+        setConfidence(response.data.confidence); // Set confidence score
         setError("");
       } else {
         setError("Prediction failed");
         setPrediction("");
+        setConfidence("");
       }
     } catch (err) {
       setError("Error: " + err.message);
       setPrediction("");
+      setConfidence("");
     }
   };
 
@@ -135,6 +140,7 @@ export default function ImageUpload() {
       {prediction && (
         <div>
           <h2>Prediction: {prediction}</h2>
+          <h3>Confidence: {confidence}%</h3> {/* Show confidence score */}
         </div>
       )}
 
