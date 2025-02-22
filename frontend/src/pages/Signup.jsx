@@ -23,7 +23,6 @@ export default function Signup() {
     username: "",
     password: "",
     email: "",
-    name: "",
   });
 
   const handleChange = (e) => {
@@ -49,8 +48,7 @@ export default function Signup() {
       return;
     } else {
       const toastId = toast.loading("Creating User, please wait");
-      await axios
-        .post(getBaseURL() + "/user/signup", user)
+      await axios.post(getBaseURL() + "/user/signup", user)
         .then((res) => {
           if (res.status === 201) {
             toast.success(res.data.message, { id: toastId });
