@@ -10,6 +10,7 @@ const userSchema = new mongoose.Schema({
     dateOfBirth : {type : String, default : ''},
     gender : {type : String, default : ''},
     registeredOn : {type : String, default : getCurrentDate(2)},
+    doctorEmail : {type : String, default : ''},
     pastRecords : [{type : mongoose.Schema.Types.ObjectId, ref : 'records'}]
 });
 

@@ -18,7 +18,7 @@ connectToDB();
 
 // routes
 app.use('/user', authRouter); // user authentication routes
-app.use('/user', userRouter); // user functionality routes
+app.use('/users', userRouter); // user functionality routes
 
 // Run the server
 app.listen(process.env.PORT, ()=> {
