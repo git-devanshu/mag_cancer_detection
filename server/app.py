@@ -21,7 +21,14 @@ import os
 app = Flask(__name__)
 CORS(app, origins="http://localhost:5173")  
 
-model = tf.keras.models.load_model(r"C:\Users\varad\OneDrive\Desktop\Web_Projects\Cancer-Detection\server\SkinCancer.h5")
+
+# Get the current script's directory
+base_dir = os.path.dirname(os.path.abspath(__file__))
+
+# Define the relative path to the model
+model_path = os.path.join(base_dir, "SkinCancer.h5")
+
+model = tf.keras.models.load_model(model_path)
 
 
 class_names = ['benign', 'malignant']
