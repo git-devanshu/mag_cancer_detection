@@ -64,7 +64,7 @@ export default function Menu() {
 
     const addResultToRecords = () =>{
         const token = sessionStorage.getItem('token');
-        axios.post(getBaseURL()+'/users/add-records', {imageURL : cloudinaryUrl, testDate : getCurrentDate(2), category : prediction, confidence}, {headers : {
+        axios.post(getBaseURL()+'/users/add-records', {imageURL : cloudinaryUrl, testDate : getCurrentDate(1), category : prediction, confidence}, {headers : {
             'Authorization': `Bearer ${token}`
         }})
         .then(res=>{

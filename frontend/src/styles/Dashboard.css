@@ -74,7 +74,7 @@
     padding: 1.5rem;
     display: flex;
     flex-direction: column;
-    height: 92%;
+    height: fit-content;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   }
   
@@ -235,12 +235,12 @@
   .card-field {
     border-radius: 4px;
     padding: 0.25rem 0.5rem;
-    font-size: 2vh;
+    font-size: 1rem;
   }
   .card-field-name {
     border-radius: 4px;
     padding: 0.25rem 0.5rem;
-    font-size:1.5rem;
+    font-size:1.3rem;
   }
   
   .cards-container::-webkit-scrollbar {
