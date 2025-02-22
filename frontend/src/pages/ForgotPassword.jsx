@@ -90,7 +90,7 @@ export default function ForgotPassword() {
     <div
       className="parent-sg"
       style={{
-        backgroundColor: "var(--primary-color-light)",
+        backgroundColor: "var(--primary-color)",
         minHeight: "100vh",
         display: "flex",
         justifyContent: "center",
@@ -241,7 +241,7 @@ export default function ForgotPassword() {
         className="title-div-sg-lg"
       >
         <div style={{ width: "100%" }}>
-          <Heading size={"2xl"} color={"var(--primary-color)"}>
+          <Heading size={"2xl"} color={"var(--primary-color-light)"}>
             Team4Real
           </Heading>
           <br />
@@ -249,7 +249,7 @@ export default function ForgotPassword() {
             Can't Remember Your Password? <br />
             We've Got You!
           </Heading>
-          <Text fontSize={"2xl"} color={"var(--text-light)"}>
+          <Text fontSize={"2xl"} color={"var(--white)"}>
             Don't worry, we've got a way!
           </Text>
         </div>

@@ -93,7 +93,7 @@ export default function Login() {
             boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
           }}
         >
-          <h1 style={{ color: "var(--secondary-color)", textAlign: "center", fontWeight: "bold" }}>
+          <h1 style={{ color: "var(--secondary-color)", textAlign: "center" }}>
             Login
           </h1>
           <Stack spacing={5} style={{ margin: "30px" }}>

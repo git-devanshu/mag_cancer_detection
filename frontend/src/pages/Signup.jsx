@@ -72,7 +72,7 @@ export default function Signup() {
     <div
       className="parent-sg"
       style={{
-        backgroundColor: "var(--primary-color-light)",
+        backgroundColor: "var(--primary-color)",
         minHeight: "100vh",
         display: "flex",
         justifyContent: "center",
@@ -186,7 +186,7 @@ export default function Signup() {
         className="title-div-sg-lg"
       >
         <div style={{ width: "100%" }}>
-          <Heading size={"2xl"} color={"var(--primary-color)"}>
+          <Heading size={"2xl"} color={"var(--primary-color-light)"}>
             Team4Real
           </Heading>
           <br />
@@ -194,7 +194,7 @@ export default function Signup() {
             AI-Powered Skin Cancer Detection
             <br /> System
           </Heading>
-          <Text fontSize={"2xl"} color={"var(--text-light)"}>
+          <Text fontSize={"2xl"} color={"var(--white )"}>
             Get started by creating an account
           </Text>
         </div>

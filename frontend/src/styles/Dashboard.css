@@ -1,0 +1,308 @@
+/* Root reset / basic setup */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", serif;
+  }
+
+  
+  .dashboard-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #f7f9fa;
+    padding: 15px;
+    background-color: #12ac8e;
+  }
+  
+  .dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #12ac8e;
+    color: #ffffff;
+    padding: 1rem 2rem;
+    width: 100%;
+    margin-top: 2px;
+    margin-bottom: 9px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 10px;
+  }
+  
+  .logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    font-size: 40px;
+    position: relative;
+    left: 10%;
+  }
+  
+  .header-right {
+    display: flex;
+    gap: 5%;
+    position: relative;
+    right: 2%;
+  }
+  
+  .header-btn {
+    background-color: #ffffff;
+    color: #12ac8e;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+  
+  .header-btn:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .dashboard-main {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 2rem;
+  }
+  
+  .user-section {
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    height: 92%;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .user-profile {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .avatar-placeholder {
+    width: 80px;
+    height: 80px;
+    background-color: #d9d9d9;
+    border-radius: 50%;
+  }
+  
+  .user-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  
+  .user-field {
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    margin-bottom: 0.25rem;
+  }
+  
+  .user-actions {
+    display: flex;
+    gap: 0.5rem;
+  }
+  
+  .update-btn,
+  .save-btn {
+    flex: 1;
+    padding: 0.5rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+  
+  .update-btn {
+    background-color: #ffbf00;
+    color: #333;
+  }
+  
+  .update-btn:hover {
+    background-color: #ffc800;
+  }
+  
+  .save-btn {
+    background-color: #12ac8e;
+    color: #ffffff;
+  }
+  
+  .save-btn:hover {
+    background-color: #283533;
+  }
+  
+  .records-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .doctor-email {
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .email-label {
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+  }
+  
+  .email-input-group {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+  }
+  
+  .email-input {
+    flex: 1;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .email-save-btn {
+    background-color: #12ac8e;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-weight: bold;
+  }
+  
+  .email-save-btn:hover {
+    background-color: #31494b;
+  }
+  
+  .past-records-title {
+    font-size: 1.25rem;
+    margin: 0 0.5rem;
+    color: #333;
+  }
+  
+  .cards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 2rem;
+    max-height: calc(100vh - 250px);
+    overflow-y: auto;
+    padding: 1rem;
+    margin-top: 0.5rem;
+    scroll-behavior: smooth;
+  }
+  
+  .record-card {
+    background-color: #ffffff;
+    border-radius: 2rem;
+    /* padding: 1rem; */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    min-height: 300px;
+    height: auto;
+    break-inside: avoid;
+    font-size: 2.5vh;
+  }
+
+  .skin-img-div{
+    height: 60%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .skin-img{
+    width: 100%;
+    height: 100%;
+    margin-bottom: 5px;
+    border-radius:  2rem 2rem 0 0;
+  }
+  
+  .card-field {
+    border-radius: 4px;
+    padding: 0.25rem 0.5rem;
+    font-size: 2vh;
+  }
+  .card-field-name {
+    border-radius: 4px;
+    padding: 0.25rem 0.5rem;
+    font-size:1.5rem;
+  }
+  
+  .cards-container::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  .cards-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+  }
+  
+  .cards-container::-webkit-scrollbar-thumb {
+    background: white;
+    border-radius: 4px;
+  }
+  
+  .cards-container::-webkit-scrollbar-thumb:hover {
+    background: #00949f;
+  }
+  
+  /* Modal Styles */
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .modal {
+    background-color: #ffffff;
+    padding: 2rem;
+    border-radius: 8px;
+    width: 300px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+  
+  .modal h2 {
+    margin-bottom: 1rem;
+  }
+  
+  .modal label {
+    display: block;
+    margin: 0.5rem 0 0.25rem;
+    font-weight: bold;
+  }
+  
+  .modal input {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .modal-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+  }

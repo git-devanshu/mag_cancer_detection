@@ -4,6 +4,7 @@ import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import ForgotPassword from "./pages/ForgotPassword";
 import Menu from "./pages/Menu";
+import Dashboard from "./pages/Dashboard";
 
 function App() {
   return (
@@ -15,7 +16,7 @@ function App() {
           <Route path="/reset-password" element={<ForgotPassword />} />
           {/* <Route path="/ImageUpload" element={<ImageUpload />}></Route> */}
           <Route path='/menu' element={<Menu />} />
-          {/* <Route path='/' element={< />} /> */}
+          <Route path='/profile' element={<Dashboard />} />
           {/* <Route path='/' element={< />} /> */}
           {/* <Route path='/' element={< />} /> */}
           {/* <Route path='/' element={< />} /> */}
