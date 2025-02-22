@@ -21,10 +21,10 @@ import os
 app = Flask(__name__)
 CORS(app, origins="http://localhost:3000")  
 
-model = tf.keras.models.load_model(r"C:\Users\varad\OneDrive\Desktop\Web_Projects\Cancer-Detection\server\trained_model.h5")
+model = tf.keras.models.load_model(r"C:\Users\varad\OneDrive\Desktop\Web_Projects\Cancer-Detection\server\SkinCancer.h5")
 
 
-class_names = ["glioma", "meningioma", "notumor", "pituitary"]
+class_names = ['benign', 'malignant']
 
 
 def model_prediction(test_image):
