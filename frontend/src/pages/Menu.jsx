@@ -11,13 +11,6 @@ const Menu = () => {
     const [confidence, setConfidence] = useState("");
     const [error, setError] = useState("");
 
-    const handleImageUpload = (event) => {
-        const file = event.target.files[0];
-        if (file) {
-            setImage(URL.createObjectURL(file));
-        }
-    };
-
     const handlePredict = async () => {
         if (!image) {
           alert("Please upload an image.");
@@ -73,7 +66,7 @@ const Menu = () => {
                     <h3 style={{fontSize: '20px', fontWeight: '700'}}>Check your skin</h3>
                     <img src={image ? image : ""} style={{height: '200px', width: 'auto'}}/>
                     <div style={{ marginTop: "10px", display: 'flex', gap: '10px' }}>
-                        <ImageUpload onUpload={handleImageUpload}/>
+                        <ImageUpload onUpload={(url)=>{setImage(url)}}/>
                         <button onClick={handlePredict} style={{ backgroundColor: "#009879", color: "white", border: "none", padding: "8px 15px", borderRadius: "5px", cursor: "pointer" }}>Check</button>
                         <button onClick={()=>{setImage(null)}} style={{ backgroundColor: "#FF8C42", color: "white", border: "none", padding: "8px 15px", borderRadius: "5px", cursor: "pointer" }}>Clear</button>
                     </div>
