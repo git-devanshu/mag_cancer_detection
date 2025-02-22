@@ -4,6 +4,7 @@ import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import ForgotPassword from "./pages/ForgotPassword";
 import ImageUpload from "./pages/ImageUpload";
+import "./index.css";
 
 function App() {
   return (
