@@ -1,5 +1,5 @@
 export function getBaseURL(){
-    return "http://localhost:5000";
+    return "http://localhost:4000";
 }
 
 export function checkEmailValidity(email){

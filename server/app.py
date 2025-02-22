@@ -1,101 +1,128 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_file
 import tensorflow as tf
 from PIL import Image
 import numpy as np
 import io
-from flask_cors import CORS
 import os
-
-# from flask import Flask, request, jsonify:
-# Imports Flask for creating the web application, request to handle incoming HTTP requests,
-# and jsonify to return JSON responses.
-
-# import tensorflow as tf:
-# Imports TensorFlow to load the trained ML model and perform predictions.
-
-# from PIL import Image:
-# Imports the Python Imaging Library (Pillow) to handle image processing tasks.
-
-
+import cv2
+import matplotlib.pyplot as plt
+from flask_cors import CORS
 
 app = Flask(__name__)
 CORS(app, origins="http://localhost:5173")  
 
-
-# Get the current script's directory
+# Load the trained model
 base_dir = os.path.dirname(os.path.abspath(__file__))
-
-# Define the relative path to the model
 model_path = os.path.join(base_dir, "SkinCancer.h5")
-
 model = tf.keras.models.load_model(model_path)
-
 
 class_names = ['benign', 'malignant']
 
+def preprocess_image(image_file, target_size=(128, 128)):
+    """Preprocess image for model prediction."""
+    image = Image.open(image_file)
+    image = image.resize(target_size)
 
-def model_prediction(test_image):
+    if image.mode != 'RGB':
+        image = image.convert('RGB')
+
+    input_arr = tf.keras.preprocessing.image.img_to_array(image)
+    input_arr = np.expand_dims(input_arr, axis=0)  # Add batch dimension
+    return input_arr
+
+def model_prediction(image_file):
+    """Predict class of skin lesion (benign/malignant)."""
     try:
-        #Opens the uploaded image using Pillow.
-        image = Image.open(test_image)
-        
-        #Resizes the image to 128x128 pixels to match the input size expected by the ML model.
-        image = image.resize((128, 128)) 
-         
-        #Ensures the image is in RGB format. Converts it if not already in RGB.
-        if image.mode != 'RGB':
-            image = image.convert('RGB')  
-
-
-        #TensorFlow models require inputs in the form of NumPy arrays. 
-        #This conversion transforms the image into a numerical representation that the 
-        #model can process.
-        input_arr = tf.keras.preprocessing.image.img_to_array(image)
-        
-        #Adds an extra dimension to the array, making it compatible with the input shape 
-        #expected by TensorFlow models.
-        #By wrapping the array in another array, the shape changes from (128, 128, 3) to (1, 128, 128, 3). 
-        #The first dimension (1) represents the batch size (one image in this case).
-        input_arr = np.array([input_arr])  
-
-        #Makes predictions using the loaded model on the processed image.
+        input_arr = preprocess_image(image_file)
         predictions = model.predict(input_arr)
-
-        #Finds the index of the class with the highest predicted probability.
-        #predictions = [0.1, 0.3, 0.05, 0.55]
-        #argmax->Finds the index of the largest value (which corresponds to the most likely class).
         result_index = np.argmax(predictions)
-
-        #Returns the class name corresponding to the predicted index.
         return class_names[result_index]
+    except Exception as e:
+        return str(e)
+
+def generate_gradcam(image_file, last_conv_layer="conv2d_3"):
+    """Generate Grad-CAM heatmap."""
+    try:
+        img_array = preprocess_image(image_file)
+
+        # Define model to fetch convolutional layer and predictions
+        grad_model = tf.keras.models.Model(
+            inputs=model.input, 
+            outputs=[model.get_layer(last_conv_layer).output, model.output]
+        )
+
+        with tf.GradientTape() as tape:
+            conv_output, predictions = grad_model(img_array)
+            pred_index = tf.argmax(predictions[0])
+            class_channel = predictions[:, pred_index]
+
+        # Compute gradients
+        grads = tape.gradient(class_channel, conv_output)
+        pooled_grads = tf.reduce_mean(grads, axis=(0, 1, 2))
+
+        # Generate heatmap
+        conv_output = conv_output[0]
+        heatmap = tf.reduce_sum(tf.multiply(pooled_grads, conv_output), axis=-1)
+
+        # Normalize heatmap
+        heatmap = np.maximum(heatmap, 0)
+        heatmap /= np.max(heatmap)
+
+        # Overlay heatmap on original image
+        image = Image.open(image_file)
+        image = image.resize((128, 128))
+        image = np.array(image)
+
+        heatmap = cv2.resize(heatmap.numpy(), (image.shape[1], image.shape[0]))
+        heatmap = np.uint8(255 * heatmap)
+        heatmap = cv2.applyColorMap(heatmap, cv2.COLORMAP_JET)
+        superimposed_img = cv2.addWeighted(heatmap, 0.5, image, 0.5, 0)
+
+        # Save and return the heatmap image
+        heatmap_path = os.path.join(base_dir, "gradcam_output.jpg")
+        cv2.imwrite(heatmap_path, superimposed_img)
+        return heatmap_path
+
     except Exception as e:
         return str(e)
 
 @app.route('/predict', methods=['POST'])
 def predict():
+    """Predict skin cancer class."""
     if 'file' not in request.files:
         return jsonify({"error": "No file part"}), 400
 
-    #Extracts the uploaded file from the request.
     file = request.files['file']
-
-    #If the filename is empty, it returns a JSON response with an error message 
-    #and HTTP status 400 (Bad Request).
     if file.filename == '':
         return jsonify({"error": "No selected file"}), 400
 
     try:
-       #Calls the model_prediction function with the uploaded file to get the 
-       #classification result
         result = model_prediction(file)
-        
-        #isinstance function in this case checks result is string or not if striing it return true
-        if isinstance(result, str):  
+        if isinstance(result, str):
             return jsonify({"prediction": result}), 200
         else:
             return jsonify({"error": "Prediction failed"}), 500
     except Exception as e:
         return jsonify({"error": f"Error in prediction: {str(e)}"}), 500
+
+@app.route('/gradcam', methods=['POST'])
+def gradcam():
+    """Generate Grad-CAM heatmap."""
+    if 'file' not in request.files:
+        return jsonify({"error": "No file part"}), 400
+
+    file = request.files['file']
+    if file.filename == '':
+        return jsonify({"error": "No selected file"}), 400
+
+    try:
+        heatmap_path = generate_gradcam(file)
+        if os.path.exists(heatmap_path):
+            return send_file(heatmap_path, mimetype='image/jpeg')
+        else:
+            return jsonify({"error": "Grad-CAM generation failed"}), 500
+    except Exception as e:
+        return jsonify({"error": f"Error generating Grad-CAM: {str(e)}"}), 500
 
 if __name__ == "__main__":
     app.run(debug=True)

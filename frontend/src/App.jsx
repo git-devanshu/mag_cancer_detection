@@ -3,8 +3,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import ForgotPassword from "./pages/ForgotPassword";
-import ImageUpload from "./pages/ImageUpload";
-import "./index.css";
+import Menu from "./pages/Menu";
 
 function App() {
   return (
@@ -14,8 +13,8 @@ function App() {
           <Route path="/" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/reset-password" element={<ForgotPassword />} />
-          <Route path="/ImageUpload" element={<ImageUpload />}></Route>
-          {/* <Route path='/' element={< />} /> */}
+          {/* <Route path="/ImageUpload" element={<ImageUpload />}></Route> */}
+          <Route path='/menu' element={<Menu />} />
           {/* <Route path='/' element={< />} /> */}
           {/* <Route path='/' element={< />} /> */}
           {/* <Route path='/' element={< />} /> */}
