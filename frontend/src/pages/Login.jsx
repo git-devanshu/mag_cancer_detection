@@ -68,7 +68,7 @@ export default function Login() {
     <div
       className="parent-sg"
       style={{
-        backgroundColor: "var(--primary-color-light)",
+        backgroundColor: "var(--primary-color)",
         minHeight: "100vh",
         display: "flex",
         justifyContent: "center",
@@ -93,7 +93,7 @@ export default function Login() {
             boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
           }}
         >
-          <h1 style={{ color: "var(--secondary-color)", textAlign: "center" }}>
+          <h1 style={{ color: "var(--secondary-color)", textAlign: "center", fontWeight: "bold" }}>
             Login
           </h1>
           <Stack spacing={5} style={{ margin: "30px" }}>
@@ -170,7 +170,7 @@ export default function Login() {
         className="title-div-sg-lg"
       >
         <div style={{ width: "100%" }} className="mt-10">
-          <Heading size={"2xl"} color={"var(--primary-color)"}>
+          <Heading size={"2xl"} color={"var(--primary-color-light)"}>
             Team4Real
           </Heading>
           <br />
@@ -178,7 +178,7 @@ export default function Login() {
             AI-Powered skin cancer detection
             <br /> system
           </Heading>
-          <Text fontSize={"2xl"} color={"var(--text-light)"}>
+          <Text fontSize={"2xl"} color={"var(--white)"}>
             Welcome Back!
           </Text>
         </div>

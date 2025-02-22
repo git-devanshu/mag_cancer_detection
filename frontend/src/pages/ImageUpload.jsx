@@ -19,7 +19,7 @@ export default function ImageUpload() {
 
       setImagePreview(null);
       setPrediction("");
-      setConfidence(""); // Reset confidence
+      setConfidence(""); 
       setError("");
 
       const reader = new FileReader();
@@ -72,7 +72,7 @@ export default function ImageUpload() {
         }
       );
 
-      if (response.data.prediction && response.data.confidence !== undefined) {
+      if (response.data.prediction) {
         setPrediction(response.data.prediction);
         setConfidence(response.data.confidence); // Set confidence score
         setError("");
