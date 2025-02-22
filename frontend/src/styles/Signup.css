@@ -1,0 +1,106 @@
+:root{
+    --font-color : rgb(29, 29, 29);
+    --font-size : 20px;
+    --heading-color : #00171F;
+    --heading-size : 26px;
+    --red : #ff0000;
+    --green : #2AFF00;
+    --yellow : #ffea05;
+    --orange : #EFA500;
+    --blue : #43BEE5;
+    --dark : #00171F;
+    --dark-green : #027e02;
+}
+
+.parent-sg{
+    background-color: var(--dark);
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 2fr 3fr;
+    align-items: center;
+    justify-content: center;
+}
+
+.form-div-sg-lg{
+    z-index: 3;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.406);
+    box-shadow: 0 0 20px 10px rgba(200, 200, 200, 0.085) inset;
+    min-height: 420px;
+    height: auto;
+    width: 350px;
+    background-color: rgba(255, 255, 255, 0.039);
+    color: var(--blue);
+    padding: 20px;
+    text-align: center;
+}
+
+.form-div-sg-lg h1{
+    font-size: 38px;
+    text-align: center;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+/* Responsive Styles */
+@media (max-width: 1024px) {
+    .parent-sg {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto;
+        height: auto;
+        padding: 20px;
+    }
+    
+    .form-div-sg-lg {
+        width: 90%;
+        max-width: 400px;
+    }
+
+    .title-div-sg-lg{
+        margin-top: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .form-div-sg-lg {
+        width: 100%;
+        max-width: 350px;
+        height: auto;
+        padding: 15px;
+    }
+    
+    .form-div-sg-lg h1 {
+        font-size: 32px;
+    }
+
+    .title-div-sg-lg{
+        margin-top: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .parent-sg {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: auto;
+        min-height: 100vh;
+        padding: 10px;
+    }
+    
+    .form-div-sg-lg {
+        width: 100%;
+        max-width: 300px;
+        padding: 10px;
+    }
+    
+    .form-div-sg-lg h1 {
+        font-size: 28px;
+    }
+
+    .title-div-sg-lg{
+        margin-top: 20px;
+    }
+}
