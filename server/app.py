@@ -19,7 +19,7 @@ import os
 
 
 app = Flask(__name__)
-CORS(app, origins="http://localhost:3000")  
+CORS(app, origins="http://localhost:5173")  
 
 model = tf.keras.models.load_model(r"C:\Users\varad\OneDrive\Desktop\Web_Projects\Cancer-Detection\server\SkinCancer.h5")
 
