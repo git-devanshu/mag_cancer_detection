@@ -25,7 +25,7 @@ You can now create and manage your portfolio by using the tools provided.
 Use your registered username and password to login each time.
 
 Thankyou...
-Team SmartFolio`
+Team4Real`
         });
         console.log("Signup email sent to : ", name);
     }
@@ -48,7 +48,7 @@ Use the following verification code to reset your password.
 ${vfcode}
 
 Thankyou...
-Team SmartFolio`
+Team4Real`
         });
         console.log("Verification code email sent");
     }
@@ -57,7 +57,7 @@ Team SmartFolio`
     }
 }
 
-// send any message on mail
+// send records to doctor
 const sendMessageMail = (name, email, messageText, receiver) => {
     try{
         const info = transporter.sendMail({
@@ -71,7 +71,7 @@ Email : ${email}
 Message : ${messageText}
 
 Thankyou...
-Team SmartFolio`
+Team4Real`
         });
         console.log("Message email sent");
     }

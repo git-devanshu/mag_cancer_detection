@@ -2,6 +2,8 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Toaster, toast } from "react-hot-toast";
+import SkinCancerMeter from "../components/SkinCancermeter";
+import {getBaseURL, getCurrentDate} from '../utils/helperFunctions';
 
 export default function Menu() {
     const navigate = useNavigate();
@@ -59,6 +61,22 @@ export default function Menu() {
             setUploading(false);
         }
     };
+
+    const addResultToRecords = () =>{
+        const token = sessionStorage.getItem('token');
+        axios.post(getBaseURL()+'/users/add-records', {imageURL : cloudinaryUrl, testDate : getCurrentDate(2), category : prediction, confidence}, {headers : {
+            'Authorization': `Bearer ${token}`
+        }})
+        .then(res=>{
+            if(res.status === 200){
+                toast.success(res.data.message);
+            }
+        })
+        .catch(err =>{
+            console.log(err);
+            toast.error('Failed to add test records');
+        });
+    }
 
     const handlePredict = async () => {
         if (!imageFile) {
@@ -126,8 +144,10 @@ export default function Menu() {
                     <p>Severity: {severity}</p> {/* Display the severity here */}
                     <div style={{ width: "70%", height: "10px", backgroundColor: "#D3D3D3", borderRadius: "5px" }}></div>
                     <button style={{ backgroundColor: "#009879", border: "none", padding: "8px 15px", borderRadius: "5px", color: "white", cursor: "pointer", marginTop: "10px" }}>View Report</button>
+                    <button onClick={addResultToRecords} style={{ backgroundColor: "#009879", border: "none", padding: "8px 15px", borderRadius: "5px", color: "white", cursor: "pointer", marginTop: "10px" }}>Save Records</button>
                     <h3 style={{ fontSize: '20px', fontWeight: '700' }}>Follow-up Recommendations</h3>
                     <div style={{ width: "100%", height: "50px", backgroundColor: "#D3D3D3", borderRadius: "10px", marginTop: "10px" }}></div>
+                    <SkinCancerMeter category={'benign'} confidence={10}/>
                 </div>
             </div>
             <Toaster />

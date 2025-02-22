@@ -1,7 +1,7 @@
 const {User} = require('../models/user');
 const bcrypt = require('bcryptjs');
 const {generateVerificationCode} = require('../utils/helperFunctions');
-const {sendSignupMail, sendVFCodeMail} = require('../utils/mailer');
+const {sendVFCodeMail} = require('../utils/mailer');
 const jwt = require('jsonwebtoken');
 
 // @desc register new users
@@ -9,18 +9,16 @@ const jwt = require('jsonwebtoken');
 // @access public
 const signupUser = async (req, res)=> {
     try{
-        const {username, name, email, password} = req.body;
+        const {username, email, password} = req.body;
         const user = await User.findOne({username});
         if(!user){
             const hashedPassword = await bcrypt.hash(password, 10);
             const newUser = new User({
                 username,
-                name,
                 email,
-                password: hashedPassword
+                password: hashedPassword,
             });
             await newUser.save();
-            sendSignupMail(email, name);
             res.status(201).json({message: 'User created successfully'});
         }
         else{
