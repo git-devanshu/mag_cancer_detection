@@ -7,7 +7,7 @@ import { getBaseURL, getCurrentDate } from "../utils/helperFunctions";
 import cloudimage from "../images/cloud.png";
 import { Spacer } from "@chakra-ui/react";
 import RecommendationList from "../components/RecommendationList";
-import {generateHTMLReport} from '../utils/generatePDF';
+import { generateHTMLReport } from "../utils/generatePDF";
 import ChatbotPopup from "./ChatbotPopup";
 
 export default function Menu() {
@@ -24,20 +24,23 @@ export default function Menu() {
   const [recommendations, setRecommendations] = useState(``);
   const [userData, setUserData] = useState({});
 
-  useEffect(()=>{
-    const token = sessionStorage.getItem('token')
-    axios.get(getBaseURL()+'/users/user-data', {headers : {
-      'Authorization' : `Bearer ${token}`
-    }})
-    .then(res =>{
-      if(res.status === 200){
-        setUserData(res.data);
-      }
-    })
-    .catch(err =>{
-      console.log(err)
-      toast.error('Failed to fetch user data')
-    })
+  useEffect(() => {
+    const token = sessionStorage.getItem("token");
+    axios
+      .get(getBaseURL() + "/users/user-data", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          setUserData(res.data);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error("Failed to fetch user data");
+      });
   }, []);
 
   const logout = () => {
@@ -152,25 +155,28 @@ export default function Menu() {
     }
   };
 
-  const fetchRecommendations = () =>{
-    axios.get(getBaseURL()+'/users/recommendations', {headers : {
-        'Authorization' : 'Bearer ' + sessionStorage.getItem('token')
-    }})
-    .then(res =>{
-        if(res.status === 200){
-            setRecommendations(res.data);
-            console.log(res.data);
+  const fetchRecommendations = () => {
+    axios
+      .get(getBaseURL() + "/users/recommendations", {
+        headers: {
+          Authorization: "Bearer " + sessionStorage.getItem("token"),
+        },
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          setRecommendations(res.data);
+          console.log(res.data);
         }
-    })
-    .catch(err =>{
+      })
+      .catch((err) => {
         console.log(err);
-        toast.error('Error fetching recommendations');
-    })
-  }
+        toast.error("Error fetching recommendations");
+      });
+  };
 
-  const navigateToProfile = () =>{
-    navigate('/profile');
-  }
+  const navigateToProfile = () => {
+    navigate("/profile");
+  };
 
   return (
     <div
@@ -178,7 +184,7 @@ export default function Menu() {
         fontFamily: "Arial, sans-serif",
         backgroundColor: "#F8F8F8",
         minHeight: "100vh",
-        height: 'auto'
+        height: "auto",
       }}
     >
       {/* Header */}
@@ -192,7 +198,7 @@ export default function Menu() {
         }}
       >
         <h2 style={{ color: "white", fontSize: "1.4em" }}>Team4Real</h2>
-        <Spacer/>
+        <Spacer />
         <button
           onClick={navigateToProfile}
           style={{
@@ -202,8 +208,8 @@ export default function Menu() {
             borderRadius: "5px",
             color: "#12ac8e",
             cursor: "pointer",
-            marginRight: '10px',
-            fontWeight: "bold"
+            marginRight: "10px",
+            fontWeight: "bold",
           }}
         >
           Profile
@@ -376,67 +382,84 @@ export default function Menu() {
 
             {/* SkinCancerMeter replacing the progress bar */}
             <div style={{ marginTop: "15px" }}>
-              <SkinCancerMeter category={prediction} confidence={parseFloat(confidence)} he={25}/>
+              <SkinCancerMeter
+                category={prediction}
+                confidence={parseFloat(confidence)}
+                he={25}
+              />
             </div>
           </div>
-
-          {/* Buttons */}
-          <div
-            style={{
-              marginTop: "15px",
-              display: "flex",
-              gap: "15px",
-              justifyContent: "center",
-            }}
-          >
-            <button
-              onClick={() => generateHTMLReport(userData, confidence, prediction, cloudinaryUrl)}
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <p
+              style={{ textAlign: "center", marginTop: "8px" }} // Example: Align text to center
+            >
+              Save Records before Follow Up
+            </p>
+            {/* Buttons */}
+            <div
               style={{
-                backgroundColor: "#009879",
-                border: "none",
-                padding: "12px 20px",
-                borderRadius: "8px",
-                color: "white",
-                cursor: "pointer",
-                fontSize: "16px",
-                width: "150px",
-                boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.2)",
+                marginTop: "15px",
+                display: "flex",
+                gap: "15px",
+                justifyContent: "center",
               }}
             >
-              Send Report
-            </button>
-            <button
-              onClick={addResultToRecords}
-              style={{
-                backgroundColor: "#FF8C42",
-                border: "none",
-                padding: "12px 20px",
-                borderRadius: "8px",
-                color: "white",
-                cursor: "pointer",
-                fontSize: "16px",
-                width: "150px",
-                boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.2)",
-              }}
-            >
-              Save Records
-            </button>
-            <button
-              onClick={fetchRecommendations}
-              style={{
-                backgroundColor: "#FF8C42",
-                border: "none",
-                padding: "12px 20px",
-                borderRadius: "8px",
-                color: "white",
-                cursor: "pointer",
-                fontSize: "16px",
-                width: "150px",
-                boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.2)",
-              }}
-            >
-              Follow up
-            </button>
+              <button
+                onClick={() =>
+                  generateHTMLReport(
+                    userData,
+                    confidence,
+                    prediction,
+                    cloudinaryUrl
+                  )
+                }
+                style={{
+                  backgroundColor: "#009879",
+                  border: "none",
+                  padding: "12px 20px",
+                  borderRadius: "8px",
+                  color: "white",
+                  cursor: "pointer",
+                  fontSize: "16px",
+                  width: "150px",
+                  boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.2)",
+                }}
+              >
+                Send Report
+              </button>
+              <button
+                onClick={addResultToRecords}
+                style={{
+                  backgroundColor: "#FF8C42",
+                  border: "none",
+                  padding: "12px 20px",
+                  borderRadius: "8px",
+                  color: "white",
+                  cursor: "pointer",
+                  fontSize: "16px",
+                  width: "150px",
+                  boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.2)",
+                }}
+              >
+                Save Records
+              </button>
+              <button
+                onClick={fetchRecommendations}
+                style={{
+                  backgroundColor: "#FF8C42",
+                  border: "none",
+                  padding: "12px 20px",
+                  borderRadius: "8px",
+                  color: "white",
+                  cursor: "pointer",
+                  fontSize: "16px",
+                  width: "150px",
+                  boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.2)",
+                }}
+              >
+                Follow up
+              </button>
+            </div>
           </div>
 
           {/* Follow-up Recommendations */}
@@ -453,11 +476,13 @@ export default function Menu() {
               marginTop: "10px",
             }}
           >
-          {recommendations?.length !== 0 && <RecommendationList recommendations={recommendations}/>}
+            {recommendations?.length !== 0 && (
+              <RecommendationList recommendations={recommendations} />
+            )}
           </div>
         </div>
       </div>
-      <ChatbotPopup/>
+      <ChatbotPopup />
       <Toaster />
     </div>
   );
