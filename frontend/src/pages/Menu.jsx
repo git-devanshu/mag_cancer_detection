@@ -375,7 +375,7 @@ export default function Menu() {
 
             {/* SkinCancerMeter replacing the progress bar */}
             <div style={{ marginTop: "15px" }}>
-              <SkinCancerMeter category={prediction} confidence={parseFloat(confidence)} />
+              <SkinCancerMeter category={prediction} confidence={parseFloat(confidence)} he={25}/>
             </div>
           </div>
 

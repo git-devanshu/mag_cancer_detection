@@ -5,6 +5,7 @@ import axios from 'axios'
 import { getBaseURL } from "../utils/helperFunctions";
 import { Toaster, toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import SkinCancerMeter from "../components/SkinCancermeter";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -173,15 +174,13 @@ const Dashboard = () => {
                         alt="Record 1"
                       />
                   </div>
-                  <p className="card-field-name">
-                    <b>Type:</b> <span style={{color: "red"}}>{record.category}</span>
-                  </p>
-                  <p className="card-field">
+                  {/* <p className="card-field-name" style={{margin:'0'}}>
+                    <b>Type:</b> <span style={{color: "red", margin:'0'}}>{record.category}</span>
+                  </p> */}
+                  <p className="card-field" style={{margin:'0'}}>
                     <b>Date:</b> {record.testDate}
                   </p>
-                  <p className="card-field">
-                    <b>Severity:</b> {record.confidence}
-                  </p>
+                  <SkinCancerMeter category={record.category} confidence={record.confidence} he={15}/>
                 </div>
               )
             })}
@@ -203,14 +202,27 @@ const Dashboard = () => {
               onChange={handleChange}
             />
 
-            <label htmlFor="age">Gender:</label>
+            {/* <label htmlFor="age">Gender:</label>
             <input
               type="text"
               id="gender"
               name="gender"
               value={userData.gender}
               onChange={handleChange}
-            />
+            /> */}
+            <label htmlFor="gender">Gender:</label>
+            <select
+              id="gender"
+              name="gender"
+              value={userData.gender}
+              onChange={handleChange}
+            >
+              <option value="">Select Gender</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="other">Other</option>
+            </select>
+
 
             <label htmlFor="dob">DOB:</label>
             <input

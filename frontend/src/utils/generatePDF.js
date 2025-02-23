@@ -1,13 +1,8 @@
-// generateHTMLReport.js
-// Helper: Calculate age from date of birth
-const calculateAge = (dob) => {
-    const birthDate = new Date(dob);
-    const diffMs = Date.now() - birthDate.getTime();
-    const ageDt = new Date(diffMs);
-    return Math.abs(ageDt.getUTCFullYear() - 1970);
-  };
+import { Toaster, toast } from "react-hot-toast";
+import { getCurrentDate } from "./helperFunctions";
   
 export const generateHTMLReport = async (userData, confidence, prediction, cloudinaryURL) => {
+    const toastId = toast.loading('Sending Report to Doctor...');
     try {
       // Create an HTML report string
       const htmlReport = `
@@ -89,10 +84,10 @@ export const generateHTMLReport = async (userData, confidence, prediction, cloud
         <div class="details">
           <div class="detail"><strong>Name:</strong> ${userData.name}</div>
           <div class="detail"><strong>Username:</strong> ${userData.username}</div>
-          <div class="detail"><strong>Age:</strong> ${calculateAge(userData.dateOfBirth)}</div>
+          <div class="detail"><strong>DOB:</strong> ${userData.dateOfBirth}</div>
           <div class="detail"><strong>Gender:</strong> ${userData.gender}</div>
           <div class="detail full-width"><strong>Email:</strong> ${userData.email}</div>
-          <div class="detail full-width"><strong>Test Date:</strong> ${userData.testDate}</div>
+          <div class="detail full-width"><strong>Test Date:</strong> ${getCurrentDate(1)}</div>
         </div>
       </div>
       <div class="section">
@@ -129,12 +124,15 @@ export const generateHTMLReport = async (userData, confidence, prediction, cloud
     
         if (response.ok) {
             console.log("HTML report sent successfully!");
+            toast.success('Report sent successfully', {id : toastId})
         } else {
             console.error("Failed to send HTML report");
+            toast.error('Error sending report', {id : toastId})
         }
       }, 1500);
     } catch (error) {
       console.error("Error generating HTML report:", error);
+      toast.error('Error sending report', {id : toastId})
     }
   };
   

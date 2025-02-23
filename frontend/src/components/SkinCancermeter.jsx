@@ -1,23 +1,50 @@
 import React from "react";
 
-const SkinCancerMeter = ({ category, confidence }) => {
-  // Compute probabilities
+const SkinCancerMeter = ({ category, confidence, he }) => {
+  // Calculate benign probability: if category is benign, then confidence is for benign,
+  // otherwise, it's 100 - confidence.
   const benignProbability = category === "benign" ? confidence : 100 - confidence;
   const malignantProbability = 100 - benignProbability;
 
-  // Determine bar colors
-  const leftColor = category === "benign" ? "green" : "red";
-  const rightColor = category === "benign" ? "red" : "green";
+  // Fixed colors for the labels and bars
+  const leftColor = "green"; // Benign
+  const rightColor = "red";  // Malignant
+
+  const styles = {
+    container: {
+      width: "100%",
+      maxWidth: "400px",
+      padding: "10px",
+    },
+    labels: {
+      display: "flex",
+      justifyContent: "space-between",
+      marginBottom: "5px",
+      fontSize: "14px",
+    },
+    bar: {
+      display: "flex",
+      width: "100%",
+      height: `${he}px`,
+      borderRadius: "8px",
+      overflow: "hidden",
+      border: "2px solid #ddd",
+    },
+    filled: {
+      height: "100%",
+      transition: "width 0.5s ease-in-out",
+    },
+  };
 
   return (
     <div style={styles.container}>
       {/* Probability Labels */}
       <div style={styles.labels}>
         <span style={{ color: leftColor, fontWeight: "bold" }}>
-          {benignProbability.toFixed(1)}% {category === "benign" ? "Benign" : "Malignant"}
+          {benignProbability.toFixed(1)}% Benign
         </span>
         <span style={{ color: rightColor, fontWeight: "bold" }}>
-          {malignantProbability.toFixed(1)}% {category === "benign" ? "Malignant" : "Benign"}
+          {malignantProbability.toFixed(1)}% Malignant
         </span>
       </div>
 
@@ -26,47 +53,20 @@ const SkinCancerMeter = ({ category, confidence }) => {
         <div
           style={{
             ...styles.filled,
-            background: "green",
+            background: leftColor,
             width: `${benignProbability}%`,
           }}
         />
         <div
           style={{
             ...styles.filled,
-            background: "red",
+            background: rightColor,
             width: `${malignantProbability}%`,
           }}
         />
       </div>
     </div>
   );
-};
-
-// Styling for the component
-const styles = {
-  container: {
-    width: "100%",
-    maxWidth: "400px",
-    padding: "10px",
-  },
-  labels: {
-    display: "flex",
-    justifyContent: "space-between",
-    marginBottom: "5px",
-    fontSize: "14px",
-  },
-  bar: {
-    display: "flex",
-    width: "100%",
-    height: "25px",
-    borderRadius: "8px",
-    overflow: "hidden",
-    border: "2px solid #ddd",
-  },
-  filled: {
-    height: "100%",
-    transition: "width 0.5s ease-in-out",
-  },
 };
 
 export default SkinCancerMeter;
