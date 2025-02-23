@@ -12,8 +12,13 @@ const recommendations = {
 
     highConfidence:
       "1. Self-Monitoring & Skin Examination:\n" +
-      "- Same as low confidence, but monitor more frequently.\n" +
-      "- Consider dermatologist evaluation if concerns arise.\n",
+      "- Regular self-checks using the ABCDE rule.\n" +
+      "- Use a mirror or smartphone for tracking.\n\n" +
+      "2. Sun Protection & Prevention:\n" +
+      "- Apply SPF 30+ sunscreen.\n" +
+      "- Avoid peak sun hours (10 AM – 4 PM).\n\n" +
+      "3. Healthy Skin Practices:\n" +
+      "- Stay hydrated, eat a balanced diet, avoid smoking.\n",
   },
 
   malignant: {
