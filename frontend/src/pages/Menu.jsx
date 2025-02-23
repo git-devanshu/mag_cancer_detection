@@ -8,6 +8,7 @@ import cloudimage from "../images/cloud.png";
 import { Spacer } from "@chakra-ui/react";
 import RecommendationList from "../components/RecommendationList";
 import {generateHTMLReport} from '../utils/generatePDF';
+import ChatbotPopup from "./ChatbotPopup";
 
 export default function Menu() {
   const navigate = useNavigate();
@@ -456,6 +457,7 @@ export default function Menu() {
           </div>
         </div>
       </div>
+      <ChatbotPopup/>
       <Toaster />
     </div>
   );

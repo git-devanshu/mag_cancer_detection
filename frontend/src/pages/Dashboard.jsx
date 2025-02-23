@@ -6,6 +6,7 @@ import { getBaseURL } from "../utils/helperFunctions";
 import { Toaster, toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import SkinCancerMeter from "../components/SkinCancermeter";
+import ChatbotPopup from "./ChatbotPopup";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -167,7 +168,7 @@ const Dashboard = () => {
           <div className="cards-container">
             {userData?.pastRecords?.length !== 0 && userData?.pastRecords?.map((record, ind) => {
               return(
-                <div className="record-card">
+                <div className="record-card" key={ind}>
                   <div className="skin-img-div">
                       <img className="skin-img"
                         src={record.imageURL}
@@ -202,14 +203,6 @@ const Dashboard = () => {
               onChange={handleChange}
             />
 
-            {/* <label htmlFor="age">Gender:</label>
-            <input
-              type="text"
-              id="gender"
-              name="gender"
-              value={userData.gender}
-              onChange={handleChange}
-            /> */}
             <label htmlFor="gender">Gender:</label>
             <select
               id="gender"
@@ -242,8 +235,12 @@ const Dashboard = () => {
               </button>
             </div>
           </div>
+          
         </div>
+        
+        
       )}
+      <ChatbotPopup/>
       <Toaster/>
     </div>
   );
