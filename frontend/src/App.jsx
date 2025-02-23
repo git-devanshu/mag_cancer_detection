@@ -14,9 +14,8 @@ function App() {
           <Route path="/" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/reset-password" element={<ForgotPassword />} />
-          {/* <Route path="/ImageUpload" element={<ImageUpload />}></Route> */}
-          <Route path='/menu' element={<Menu />} />
-          <Route path='/profile' element={<Dashboard />} />
+          <Route path='/menu' element={<ProtectedMenu />} />
+          <Route path='/profile' element={<ProtectedDashboard />} />
           {/* <Route path='/' element={< />} /> */}
           {/* <Route path='/' element={< />} /> */}
           {/* <Route path='/' element={< />} /> */}
@@ -29,14 +28,24 @@ function App() {
   );
 }
 
-// const ProtectedComponent = () =>{
-//     const token = sessionStorage.getItem('token');
-//     if(token){
-//         return < />
-//     }
-//     else{
-//         return <Navigate to='/' />
-//     }
-// }
+const ProtectedDashboard = () =>{
+    const token = sessionStorage.getItem('token');
+    if(token){
+        return <Dashboard/>
+    }
+    else{
+        return <Navigate to='/' />
+    }
+}
+
+const ProtectedMenu = () =>{
+  const token = sessionStorage.getItem('token');
+  if(token){
+      return <Menu/>
+  }
+  else{
+      return <Navigate to='/' />
+  }
+}
 
 export default App;

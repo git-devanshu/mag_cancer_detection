@@ -69,7 +69,7 @@ const getUserRecommendations = async (req, res) => {
         return res.json({ message: "No records found", recommendation: null });
       }
   
-      const { category, confidence } = user.pastRecords[0];
+      const { category, confidence } = user.pastRecords.at(-1);
       let recommendation = "";
   
       if (category.toLowerCase() === "benign") {
@@ -78,10 +78,10 @@ const getUserRecommendations = async (req, res) => {
         recommendation = confidence < 75 ? recommendations.malignant.lowConfidence : recommendations.malignant.highConfidence;
       }
   
-      res.status(200).json({ user, recommendation });
+      res.status(200).json(recommendation);
     } catch (error) {
       console.error("Error fetching recommendations:", error);
-      res.status(500).json({ message: "Server error" });
+      res.status(500).json({ message: "Internal Server error" });
     }
   };
 
@@ -104,16 +104,4 @@ const addDoctorEmail = async (req, res) =>{
     }
 }
 
-// @desc send test report pdf to doctor on email
-// @route POST /users/send-records
-// @access private
-const sendReportToDoctor = async (req, res) =>{
-    // try{
-    //     const 
-    // }
-    // catch(error){
-    //     res.status(500).json({ message : 'Internal Server Error' });
-    // }
-}
-
-module.exports = {getUserData, updateUserData, addRecords, sendReportToDoctor, addDoctorEmail, getUserRecommendations};
+module.exports = {getUserData, updateUserData, addRecords, addDoctorEmail, getUserRecommendations};

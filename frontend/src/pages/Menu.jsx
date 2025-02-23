@@ -1,10 +1,13 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Toaster, toast } from "react-hot-toast";
 import SkinCancerMeter from "../components/SkinCancermeter";
 import { getBaseURL, getCurrentDate } from "../utils/helperFunctions";
 import cloudimage from "../images/cloud.png";
+import { Spacer } from "@chakra-ui/react";
+import RecommendationList from "../components/RecommendationList";
+import {generateHTMLReport} from '../utils/generatePDF';
 
 export default function Menu() {
   const navigate = useNavigate();
@@ -17,6 +20,24 @@ export default function Menu() {
   const [confidence, setConfidence] = useState("");
   const [severity, setSeverity] = useState(""); // New state for severity
   const [error, setError] = useState("");
+  const [recommendations, setRecommendations] = useState(``);
+  const [userData, setUserData] = useState({});
+
+  useEffect(()=>{
+    const token = sessionStorage.getItem('token')
+    axios.get(getBaseURL()+'/users/user-data', {headers : {
+      'Authorization' : `Bearer ${token}`
+    }})
+    .then(res =>{
+      if(res.status === 200){
+        setUserData(res.data);
+      }
+    })
+    .catch(err =>{
+      console.log(err)
+      toast.error('Failed to fetch user data')
+    })
+  }, []);
 
   const logout = () => {
     sessionStorage.removeItem("token");
@@ -72,7 +93,7 @@ export default function Menu() {
         getBaseURL() + "/users/add-records",
         {
           imageURL: cloudinaryUrl,
-          testDate: getCurrentDate(2),
+          testDate: getCurrentDate(1),
           category: prediction,
           confidence,
         },
@@ -130,12 +151,33 @@ export default function Menu() {
     }
   };
 
+  const fetchRecommendations = () =>{
+    axios.get(getBaseURL()+'/users/recommendations', {headers : {
+        'Authorization' : 'Bearer ' + sessionStorage.getItem('token')
+    }})
+    .then(res =>{
+        if(res.status === 200){
+            setRecommendations(res.data);
+            console.log(res.data);
+        }
+    })
+    .catch(err =>{
+        console.log(err);
+        toast.error('Error fetching recommendations');
+    })
+  }
+
+  const navigateToProfile = () =>{
+    navigate('/profile');
+  }
+
   return (
     <div
       style={{
         fontFamily: "Arial, sans-serif",
         backgroundColor: "#F8F8F8",
-        height: "100vh",
+        minHeight: "100vh",
+        height: 'auto'
       }}
     >
       {/* Header */}
@@ -149,6 +191,22 @@ export default function Menu() {
         }}
       >
         <h2 style={{ color: "white", fontSize: "1.4em" }}>Team4Real</h2>
+        <Spacer/>
+        <button
+          onClick={navigateToProfile}
+          style={{
+            backgroundColor: "#FFffff",
+            border: "none",
+            padding: "10px 17px",
+            borderRadius: "5px",
+            color: "#12ac8e",
+            cursor: "pointer",
+            marginRight: '10px',
+            fontWeight: "bold"
+          }}
+        >
+          Profile
+        </button>
         <button
           onClick={logout}
           style={{
@@ -317,7 +375,7 @@ export default function Menu() {
 
             {/* SkinCancerMeter replacing the progress bar */}
             <div style={{ marginTop: "15px" }}>
-              <SkinCancerMeter category={"benign"} confidence={10} />
+              <SkinCancerMeter category={prediction} confidence={parseFloat(confidence)} />
             </div>
           </div>
 
@@ -331,6 +389,7 @@ export default function Menu() {
             }}
           >
             <button
+              onClick={() => generateHTMLReport(userData, confidence, prediction, cloudinaryUrl)}
               style={{
                 backgroundColor: "#009879",
                 border: "none",
@@ -343,7 +402,7 @@ export default function Menu() {
                 boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.2)",
               }}
             >
-              View Report
+              Send Report
             </button>
             <button
               onClick={addResultToRecords}
@@ -361,6 +420,22 @@ export default function Menu() {
             >
               Save Records
             </button>
+            <button
+              onClick={fetchRecommendations}
+              style={{
+                backgroundColor: "#FF8C42",
+                border: "none",
+                padding: "12px 20px",
+                borderRadius: "8px",
+                color: "white",
+                cursor: "pointer",
+                fontSize: "16px",
+                width: "150px",
+                boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.2)",
+              }}
+            >
+              Follow up
+            </button>
           </div>
 
           {/* Follow-up Recommendations */}
@@ -373,11 +448,12 @@ export default function Menu() {
             style={{
               width: "100%",
               height: "50px",
-              backgroundColor: "#D3D3D3",
               borderRadius: "10px",
               marginTop: "10px",
             }}
-          ></div>
+          >
+          {recommendations?.length !== 0 && <RecommendationList recommendations={recommendations}/>}
+          </div>
         </div>
       </div>
       <Toaster />

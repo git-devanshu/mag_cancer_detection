@@ -110,6 +110,28 @@
     gap: 0.5rem;
   }
   
+  .recommendation-list {
+    list-style: none; /* Remove bullets */
+    padding: 0;
+    margin: 0;
+  }
+  
+  .recommendation-list li {
+    font-size: 16px;
+    line-height: 1.6;
+    padding: 8px 0;
+    border-left: 4px solid #007bff; /* Blue bar for emphasis */
+    padding-left: 12px;
+    background: #f9f9f9; /* Light background */
+    margin-bottom: 6px;
+    border-radius: 4px;
+  }
+  
+  .recommendation-list li:nth-child(odd) {
+    background: #f1f1f1; /* Alternate background for better readability */
+  }
+  
+
   .update-btn,
   .save-btn {
     flex: 1;

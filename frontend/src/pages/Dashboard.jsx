@@ -4,8 +4,10 @@ import userImg from "../images/profileDhan.png";
 import axios from 'axios'
 import { getBaseURL } from "../utils/helperFunctions";
 import { Toaster, toast } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
+  const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [userData, setUserData] = useState({});
   const [refresh, setRefresh] = useState(false);
@@ -76,8 +78,20 @@ const Dashboard = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setUserData((prev) => ({ ...prev, [name]: value }));
+    setUserData({ ...userData, [name]: value });
   };
+
+  const navigateToMenu = () =>{
+    navigate('/menu');
+  }
+
+  const logout = () => {
+    sessionStorage.removeItem("token");
+    toast.success("User logged out");
+    setTimeout(() => {
+        navigate("/");
+    }, 1000);
+};
 
   return (
     <div className="dashboard-container">
@@ -88,8 +102,8 @@ const Dashboard = () => {
         </div>
         {/* Ask and Logout buttons */}
         <div className="header-right">
-          <button className="header-btn">Ask</button>
-          <button className="header-btn">Logout</button>
+          <button onClick={navigateToMenu} className="header-btn">Test</button>
+          <button onClick={logout} className="header-btn">Logout</button>
         </div>
       </header>
 
